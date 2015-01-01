@@ -17,7 +17,10 @@ public class CheatActivity extends Activity {
     public static final String EXTRA_ANSWER_SHOWN =
             "uk.co.talkingquickly.android.geoquiz.answer_shown";
 
+    private static final String KEY_ANSWER_SHOWN = "answerShown";
+
     private boolean mAnswerIsTrue;
+    private boolean mAnswerShown;
     private TextView mAnswerTextView;
     private Button mShowAnswer;
 
@@ -37,17 +40,27 @@ public class CheatActivity extends Activity {
         mAnswerTextView = (TextView)findViewById(R.id.answerTextView);
         mShowAnswer = (Button)findViewById(R.id.showAnswerButton);
 
-        setAnswerShownResult(false);
+        if (savedInstanceState != null) {
+            mAnswerShown = savedInstanceState.getBoolean(KEY_ANSWER_SHOWN, false);
+        }
+
+        setAnswerShownResult(mAnswerShown);
 
         mShowAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setAnswerShownResult(true);
+                mAnswerShown = true;
+                setAnswerShownResult(mAnswerShown);
                 if (mAnswerIsTrue) {
                     mAnswerTextView.setText(R.string.true_button);
                 } else
                     mAnswerTextView.setText(R.string.false_button);
             }
         });
+    }
+
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putBoolean(KEY_ANSWER_SHOWN, mAnswerShown);
     }
 }
