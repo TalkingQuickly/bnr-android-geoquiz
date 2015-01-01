@@ -35,12 +35,10 @@ public class QuizActivity extends ActionBarActivity {
     };
 
     private int mCurrentIndex = 0;
-    private boolean mIsCheater;
 
     private void updateQuestion() {
         int question = mQuestionBank[mCurrentIndex].getQuestion();
         mQuestionTextView.setText(question);
-        mIsCheater = false;
     }
 
     private void nextQuestion() {
@@ -61,7 +59,7 @@ public class QuizActivity extends ActionBarActivity {
         boolean answerIsTrue = mQuestionBank[mCurrentIndex].isTrueQuestion();
         int messageResId = 0;
 
-        if (mIsCheater) {
+        if (mQuestionBank[mCurrentIndex].isCheated()) {
             messageResId = R.string.judgement_toast;
         } else {
             if (userPressedTrue == answerIsTrue) {
@@ -146,7 +144,11 @@ public class QuizActivity extends ActionBarActivity {
         if (data == null) {
             return;
         } else {
-            mIsCheater = data.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false);
+            if (mQuestionBank[mCurrentIndex].isCheated() == false) {
+                mQuestionBank[mCurrentIndex].setCheated(
+                        data.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false)
+                );
+            }
         }
     }
 

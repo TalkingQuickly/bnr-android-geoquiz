@@ -13,10 +13,20 @@ public class TrueFalse implements Parcelable{
 
     private int mQuestion;
     private boolean mTrueQuestion;
+    private boolean mCheated;
+
+    public boolean isCheated() {
+        return mCheated;
+    }
+
+    public void setCheated(boolean cheated) {
+        mCheated = cheated;
+    }
 
     public TrueFalse(int question, boolean trueQuestion) {
         mQuestion = question;
         mTrueQuestion = trueQuestion;
+        mCheated = false;
     }
 
     public int getQuestion() {
@@ -40,6 +50,7 @@ public class TrueFalse implements Parcelable{
         Log.d(TAG, "Reading from Parcel");
         this.mQuestion = in.readInt();
         this.mTrueQuestion = in.readByte() != 0;
+        this.mCheated = in.readByte() != 0;
     }
 
     @Override
@@ -52,6 +63,7 @@ public class TrueFalse implements Parcelable{
         Log.d(TAG, "Writing to Parcel");
         dest.writeInt(mQuestion);
         dest.writeByte((byte) (mTrueQuestion ? 1 : 0));
+        dest.writeByte((byte) (mCheated ? 1 : 0));
     }
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
         public TrueFalse createFromParcel(Parcel in) {
