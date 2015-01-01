@@ -17,6 +17,7 @@ public class QuizActivity extends ActionBarActivity {
 
     private static final String TAG = "QuizActivity";
     private static final String KEY_INDEX = "index";
+    private static final String KEY_QUESTIONS = "questions";
 
     private Button mTrueButton;
     private Button mFalseButton;
@@ -83,6 +84,7 @@ public class QuizActivity extends ActionBarActivity {
 
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+            mQuestionBank = (TrueFalse[])savedInstanceState.getParcelableArray(KEY_QUESTIONS);
         }
 
         mQuestionTextView = (TextView)findViewById(R.id.question_text_view);
@@ -153,6 +155,7 @@ public class QuizActivity extends ActionBarActivity {
         super.onSaveInstanceState(savedInstanceState);
         Log.i(TAG, "onSaveInstanceState() Called");
         savedInstanceState.putInt(KEY_INDEX, mCurrentIndex);
+        savedInstanceState.putParcelableArray(KEY_QUESTIONS, mQuestionBank);
     }
 
     @Override
